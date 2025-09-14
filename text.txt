@@ -1,0 +1,98 @@
+📂 Folder + File Setup
+
+In your project root (P:\Projects\todo), create these files:
+
+.vscode/
+  settings.json
+.eslintrc.js
+.eslintignore
+.prettierrc
+.prettierignore
+commitlint.config.js
+
+✅ 1. .vscode/settings.json
+
+Create a folder .vscode/ if it doesn’t exist, then add:
+
+{
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+    "source.organizeImports": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "typescript.tsdk": "node_modules/typescript/lib"
+}
+
+✅ 2. .eslintrc.js
+module.exports = {
+  root: true,
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: true,
+    tsconfigRootDir: __dirname
+  },
+  plugins: ["@typescript-eslint", "prettier", "react", "react-hooks"],
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended",
+    "next/core-web-vitals"
+  ],
+  rules: {
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "prettier/prettier": ["error", { "endOfLine": "lf" }],
+    "react/react-in-jsx-scope": "off"
+  },
+  settings: {
+    react: {
+      version: "detect"
+    }
+  }
+};
+
+✅ 3. .eslintignore
+node_modules
+.next
+dist
+build
+
+✅ 4. .prettierrc
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "endOfLine": "lf"
+}
+
+✅ 5. .prettierignore
+node_modules
+.next
+dist
+build
+package-lock.json
+yarn.lock
+
+✅ 6. commitlint.config.js
+module.exports = { extends: ["@commitlint/config-conventional"] };
+
+
+📌 After you add these files:
+Restart VS Code → it will pick up .vscode/settings.json.
+Run yarn lint or yarn format to test ESLint + Prettier.
+Try a commit → Husky will enforce everything.
+⚡ Do you want me to also give you a ready package.json scripts section so your teammates can run yarn lint, yarn format, yarn commitlint without errors?
