@@ -4,7 +4,7 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import mongoose from "mongoose";
 import UserModel from "@/model/User";
 
-export async function GET(request: Request) {
+export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
@@ -27,12 +27,15 @@ export async function GET(request: Request) {
       { $match: { _id: userId } },
       { $unwind: "$messages" },
       { $sort: { "messages.createdAt": -1 } },
+
       { $group: { _id: "$_id", messages: { $push: "$messages" } } },
     ]);
+
     // 1. Filter: only documents with this userId
     // 2. Flatten the "messages" array into individual documents
     // 3. Sort messages by createdAt in descending order
     // 4. Group back by user _id and reconstruct the messages array
+
     if (!user || user.length === 0) {
       return Response.json(
         {
